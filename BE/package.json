@@ -1,0 +1,14 @@
+{
+  "name": "live-presentation",
+  "version": "1.0.0",
+  "description": "Application for live chat",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
