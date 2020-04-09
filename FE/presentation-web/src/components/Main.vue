@@ -5,7 +5,7 @@
   </div>
   <div>
     <!-- Standard button -->
-<button type="button" class="btn btn-primary">Google 로그인</button>
+<button type="button" class="btn btn-primary"><i class="fa fa-google" aria-hidden="true"></i>oogle Login</button>
   </div>
 </div>
 </template>
