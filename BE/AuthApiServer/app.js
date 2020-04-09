@@ -1,21 +1,28 @@
 const express = require('express');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
+const cookieSession = require('cookie-session');
 const bodyParser = require('body-parser');
+const path = require('path');
 const cors = require('cors');
+const connectHistoryApiFallbsck = require('connect-history-api-fallback');
+
+const indexRouter = require('./routes/index');
 const app = express();
+// app.use(connectHistoryApiFallbsck());
 
 // Setting Cors
 app.use(cors());
 
+app.set('view engine', 'html');
 // routing
-app.use('/', require('./routes/index'));
+app.use('/', indexRouter);
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-
+app.use(express.static(path.join(__dirname, 'dist')));
 // passport settings
 require('./auth/passport.js').setup(app);
 

@@ -23,15 +23,21 @@ passport.use(
 			clientSecret: GOOGLE_CLIENT_SECRET,
 			callbackURL: 'http://localhost:3000/auth/google/callback'
 		},
-		function(accessToken, refreshToken, profile, done) {
-			/* 
+		(accessToken, refreshToken, profile, done) => {
+			return done(null, {
+				user: profile,
+				token: accessToken
+				// });
+				/* 
 				req.session.passport 정보 저장.
 				done메소드에 전달된 정보가 세션에 저장된다.
 				profile을 이요해서 사용자 정보를 DB.
 			*/
-			process.nextTick(function() {
-				user = profile;
-				return done(null, user);
+				// process.nextTick(function() {
+				// 	user = profile;
+				// 	token = accessToken;
+				// 	return done(null, user);
+				// });
 			});
 		}
 	)
@@ -47,22 +53,46 @@ const setup = function(app) {
 	);
 	app.use(passport.initialize());
 	app.use(passport.session());
+	app.get('/testing', (req, res) => {
+		res.redirect('/auth/google');
+	});
 	app.get('/auth/google', passport.authenticate('google', { scope: [ 'openid', 'email' ] }), function(req, res) {
 		// The request will be redirected to Google for authentication, so this
 		// function will not be called.
+		// res.send('hello');
 	});
 
 	app.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/login' }), function(
 		req,
 		res
 	) {
+		req.session.token = req.user.token;
+		console.log(req.session.token);
 		console.log(req.query);
+		res.cookie('token', req.session.token);
+		console.log(req.user);
 		res.redirect('/');
 	});
 
 	app.get('/logout', function(req, res) {
 		req.logout();
 		res.redirect('/login');
+	});
+
+	app.get('/', (req, res) => {
+		if (req.session.token) {
+			res.cookie('token', req.session.token);
+			console.log(req.user);
+			res.redirect('http://localhost:8080/');
+			// res.json({
+			// status: 'session cookie set'
+			// });
+		} else {
+			res.cookie('token', '');
+			// res.json({
+			// status: 'session cookie not set'
+			// });
+		}
 	});
 };
 
