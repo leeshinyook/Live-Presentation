@@ -10,12 +10,12 @@ router.get('/login', (req, res, next) => {
 	res.render('login', { title: 'Login' });
 });
 
-router.get('/account', auth.ensureAuthenticated, (req, res, next) => {
-	res.render('account', {
-		title: 'Account',
-		name: req.user.displayName,
-		user: JSON.stringify(req.user)
-	});
-});
+// router.get('/account', auth.ensureAuthenticated, (req, res, next) => {
+// res.render('account', {
+// title: 'Account',
+// name: req.user.displayName,
+// user: JSON.stringify(req.user)
+// });
+// });
 
 module.exports = router;
