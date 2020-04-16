@@ -103,7 +103,8 @@ const setup = function(app) {
 	app.get('/account', auth.ensureAuthenticated, (req, res) => {
 		const account = {
 			name: req.user._json.name,
-			picture: req.user._json.picture
+			picture: req.user._json.picture,
+			email: req.user._json.email
 		};
 		res.json(account);
 	});
