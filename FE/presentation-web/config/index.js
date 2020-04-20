@@ -15,13 +15,13 @@ module.exports = {
 				changeOrigin: true,
 				pathRewrite: {
 					'^/auth': ''
-				},
-				'/chat': {
-					target: 'http://localhost:3001/',
-					changeOrigin: true,
-					pathRewrite: {
-						'^/chat': ''
-					}
+				}
+			},
+			'/api': {
+				target: 'http://localhost:3001/',
+				changeOrigin: true,
+				pathRewrite: {
+					'^/api': ''
 				}
 			}
 		},
