@@ -4,7 +4,10 @@ import Vue from 'vue';
 import App from './App';
 import router from './router';
 import axios from 'axios';
+import io from 'socket.io-client';
+const socket = io('http://localhost:3001');
 
+Vue.prototype.$socket = socket;
 Vue.prototype.$axios = axios;
 Vue.config.productionTip = false;
 
