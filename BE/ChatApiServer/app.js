@@ -43,30 +43,14 @@ io.on('connection', (socket) => {
 		roomNum = data;
 		socket.join(roomNum);
 	});
-	// console.log(roomNum);
 	socket.on('message', (data) => {
 		console.log(data.message);
 		console.log(roomNum);
 		socket.in(roomNum).emit('message', data);
-		// io.to(roomNum).emit('message', data);
-		// let rtnMessage = {
-		// message: data.message
-		// };
-		// socket.broadcast.to(this.roomNum).emit('message', rtnMessage);
-		// socket.on()
-		// socket.get('room', (error, data) => {
-		// io.sockets.in(room).emit('message', data);
-		// });
 	});
-	// socket.on('send', (data) => {
-	// 	console.log('message from Client: ' + data.message);
-	// });
-	// socket.on('joinRoom', data => {
-	// 	socket.join()
-	// })
-	// socket.on('disconnect', () => {
-	// 	console.log('disconnected');
-	// });
+	socket.on('disconnect', () => {
+		console.log('disconnected from ');
+	});
 });
 
 const PORT = 3001;
