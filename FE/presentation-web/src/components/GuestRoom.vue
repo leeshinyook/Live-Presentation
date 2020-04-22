@@ -14,6 +14,8 @@
 <script>
 export default {
   created() {
+    console.log(this.$route.params.code);
+    this.roomNumber = this.$route.params.code;
     this.$socket.on('message', (data) => {
       this.textarea += data.message + '\n';
     })
@@ -21,12 +23,13 @@ export default {
   data() {
     return {
       message: '',
-      textarea: ''
+      textarea: '',
+      roomNumber: ''
     }
   },
   methods: {
     sendMessage() {
-      this.$socket.emit('message', {message : this.message});
+      this.$socket.emit('message', {message : this.message, roomId: this.roomNumber});
       this.textarea += this.message +'\n';
       this.message = '';
     }

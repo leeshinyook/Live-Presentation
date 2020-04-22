@@ -56,7 +56,7 @@ export default {
       this.$socket.emit('join', room);
     },
     sendMessage() {
-      this.$socket.emit('message', {message : this.message});
+      this.$socket.emit('message', {message : this.message, roomId : this.user.uniqueNumber});
       this.textarea += this.message +'\n';
       this.message = '';
     }

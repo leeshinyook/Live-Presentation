@@ -33,7 +33,8 @@ export default {
     joinRoom() {
       // const qs = this.evtCode;
       this.$socket.emit('join', this.evtCode);
-      this.$router.push({path: 'GuestRoom'});
+      // this.$router.push({path: 'GuestRoom'});
+      this.$router.push({name: 'GuestRoom', params: {"code" : this.evtCode}});
     }
   }
 }
