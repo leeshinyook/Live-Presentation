@@ -37,16 +37,16 @@ if (app.get('env') === 'development') {
 
 io.on('connection', (socket) => {
 	console.log('a user connected' + socket);
-	let roomNum;
 	socket.on('join', (data) => {
 		console.log('join room number : ' + data);
-		roomNum = data;
-		socket.join(roomNum);
+		socket.join(data);
 	});
 	socket.on('message', (data) => {
-		console.log(data.message);
-		console.log(roomNum);
-		socket.in(roomNum).emit('message', data);
+		let reply = {
+			message: data.message,
+			roomId: data.roomId
+		};
+		socket.in(reply.roomId).emit('message', data);
 	});
 	socket.on('disconnect', () => {
 		console.log('disconnected from ');
