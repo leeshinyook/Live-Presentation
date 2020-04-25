@@ -47,31 +47,33 @@ sub.on('subscribe', function(channel, count) {
 });
 sub.on('message', function(channel, data) {
 	data = JSON.parse(data);
-	console.log(data);
 	if (data.sendType === 'sendToAllClientsInRoom') {
-		io.sockets.in(data.roomId).emit('message', { message: 'JOIN IN ROOM!', roomId: data.roomId });
+		io.sockets.to(data.roomId).emit(data.event, { message: data.message, roomId: data.roomId });
 	}
 });
 io.on('connection', (socket) => {
 	console.log('a user connected' + socket);
 	socket.on('join', (data) => {
 		let reply = JSON.stringify({
+			event: 'chat',
+			message: 'person JOIN',
 			roomId: data,
 			sendType: 'sendToAllClientsInRoom'
 		});
-		console.log('join room number : ' + data);
 		socket.join(data);
 		pub.publish('sub', reply);
 	});
-	socket.on('message', (data) => {
-		let reply = {
+	socket.on('chat', (data) => {
+		let reply = JSON.stringify({
+			event: 'chat',
 			message: data.message,
-			roomId: data.roomId
-		};
-		socket.in(reply.roomId).emit('message', data);
+			roomId: data.roomId,
+			sendType: 'sendToAllClientsInRoom'
+		});
+		pub.publish('sub', reply);
 	});
 	socket.on('disconnect', () => {
-		console.log('disconnected from ');
+		console.log('disconnected');
 	});
 });
 
