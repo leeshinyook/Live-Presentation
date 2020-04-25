@@ -50,6 +50,9 @@ sub.on('message', function(channel, data) {
 	if (data.sendType === 'sendToAllClientsInRoom') {
 		io.sockets.to(data.roomId).emit(data.event, { message: data.message, roomId: data.roomId });
 	}
+	if (data.sendType === 'sentToSelf') {
+		io.emit(data.event, data.data);
+	}
 });
 io.on('connection', (socket) => {
 	console.log('a user connected' + socket);
@@ -71,6 +74,19 @@ io.on('connection', (socket) => {
 			sendType: 'sendToAllClientsInRoom'
 		});
 		pub.publish('sub', reply);
+	});
+	socket.on('makeRoom', (data) => {
+		let reply = {
+			roomId: data.roomId,
+			host: data.userName
+		};
+		store.set(reply.roomId, reply.host); // key - value
+		socket.join(reply.roomId);
+	});
+	socket.on('getRoomHostName', (data) => {
+		store.get(data, (err, reply) => {
+			io.emit('getRoomHostName', reply);
+		});
 	});
 	socket.on('disconnect', () => {
 		console.log('disconnected');
