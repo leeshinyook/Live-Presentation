@@ -1,6 +1,8 @@
 <template>
 <div>
   <div>
+    <h1>게스트 모드</h1>
+    <h1>{{hostName}}님의 이벤트!</h1>
     <input type="text" v-model="message">
     <button @click="sendMessage()">Send</button>
   </div>
@@ -15,6 +17,10 @@
 export default {
   created() {
     this.roomNumber = this.$route.params.code;
+    this.$socket.emit('getRoomHostName', this.roomNumber);
+    this.$socket.on('getRoomHostName', (data) => {
+      this.hostName = data;
+    })
     this.$socket.on('chat', (data) => {
       this.textarea += data.message + '\n';
     })
@@ -23,7 +29,8 @@ export default {
     return {
       message: '',
       textarea: '',
-      roomNumber: ''
+      roomNumber: '',
+      hostName: ''
     }
   },
   methods: {
