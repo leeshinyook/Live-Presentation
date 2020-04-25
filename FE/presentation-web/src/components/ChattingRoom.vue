@@ -4,7 +4,7 @@
   <img v-bind:src="this.user.picture" alt="Google Image" height="50px" width="50px">
   <strong>{{user.name}}</strong>님 안녕하세요!
   </header>
-  <h1>호스트</h1>
+  <h1>호스트 모드</h1>
   <button v-on:click="CreateUniqNum()">고유번호 발급받기</button>
   <div v-if="this.user.uniqueNumber">고유번호 : {{user.uniqueNumber}}</div>
   <button v-on:click="CreateRoom()" v-if="this.user.uniqueNumber">방 만들기</button>
@@ -52,8 +52,11 @@ export default {
       this.cryptoFlag = true;
     },
     CreateRoom() {
-      let room = this.user.uniqueNumber;
-      this.$socket.emit('join', room);
+      let load = {
+        userName : this.user.name,
+        roomId : this.user.uniqueNumber
+      }
+      this.$socket.emit('makeRoom', load);
     },
     sendMessage() {
       let load = {
