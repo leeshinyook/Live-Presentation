@@ -14,9 +14,8 @@
 <script>
 export default {
   created() {
-    console.log(this.$route.params.code);
     this.roomNumber = this.$route.params.code;
-    this.$socket.on('message', (data) => {
+    this.$socket.on('chat', (data) => {
       this.textarea += data.message + '\n';
     })
   },
@@ -29,8 +28,7 @@ export default {
   },
   methods: {
     sendMessage() {
-      this.$socket.emit('message', {message : this.message, roomId: this.roomNumber});
-      this.textarea += this.message +'\n';
+      this.$socket.emit('chat', {message : this.message, roomId: this.roomNumber});
       this.message = '';
     }
   }

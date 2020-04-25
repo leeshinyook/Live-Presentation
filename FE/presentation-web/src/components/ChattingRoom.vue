@@ -27,7 +27,7 @@ export default {
       this.user.picture = res.data.picture;
       this.user.email = res.data.email;
     })
-    this.$socket.on('message', (data) => {
+    this.$socket.on('chat', (data) => {
             this.textarea += data.message + '\n';
     })
   },
@@ -56,8 +56,11 @@ export default {
       this.$socket.emit('join', room);
     },
     sendMessage() {
-      this.$socket.emit('message', {message : this.message, roomId : this.user.uniqueNumber});
-      this.textarea += this.message +'\n';
+      let load = {
+        message : this.message,
+        roomId : this.user.uniqueNumber
+      }
+      this.$socket.emit('chat', load);
       this.message = '';
     }
   }
