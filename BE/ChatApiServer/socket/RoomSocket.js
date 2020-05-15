@@ -3,7 +3,12 @@ module.exports = function(server, pub, sub, store) {
 	sub.on('message', function(channel, data) {
 		data = JSON.parse(data);
 		if (data.sendType === 'sendToAllClientsInRoom') {
-			io.sockets.to(data.roomId).emit(data.event, { message: data.message, roomId: data.roomId });
+			let reply = {
+				message: data.message,
+				roomId: data.roomId,
+				nickName: data.nickName
+			};
+			io.sockets.to(data.roomId).emit(data.event, reply);
 		}
 		if (data.sendType === 'sentToSelf') {
 			io.emit(data.event, data.data);
@@ -22,10 +27,12 @@ module.exports = function(server, pub, sub, store) {
 			pub.publish('sub', reply);
 		});
 		socket.on('chat', (data) => {
+			console.log(data);
 			let reply = JSON.stringify({
 				event: 'chat',
 				message: data.message,
 				roomId: data.roomId,
+				nickName: data.nickName,
 				sendType: 'sendToAllClientsInRoom'
 			});
 			pub.publish('sub', reply);
