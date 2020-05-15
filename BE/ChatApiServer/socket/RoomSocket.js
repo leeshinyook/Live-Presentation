@@ -17,14 +17,14 @@ module.exports = function(server, pub, sub, store) {
 	io.on('connection', (socket) => {
 		console.log('a user connected' + socket);
 		socket.on('join', (data) => {
-			let reply = JSON.stringify({
-				event: 'chat',
-				message: 'person JOIN',
-				roomId: data,
-				sendType: 'sendToAllClientsInRoom'
-			});
+			// let reply = JSON.stringify({
+			// 	event: 'chat',
+			// 	message: '',
+			// 	roomId: data,
+			// 	sendType: 'sendToAllClientsInRoom'
+			// });
 			socket.join(data);
-			pub.publish('sub', reply);
+			// pub.publish('sub', reply);
 		});
 		socket.on('chat', (data) => {
 			console.log(data);
