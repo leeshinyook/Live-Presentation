@@ -30,21 +30,26 @@ export default {
   methods: {
     joinRoom() {
       // const qs = this.evtCode;
-      this.$socket.emit('join', this.evtCode);
+      this.$socket.emit('join', this.evtCode.trim());
       // this.$router.push({path: 'GuestRoom'});
-      this.$router.push({name: 'GuestRoom', params: {"code" : this.evtCode}});
+      this.$router.push({name: 'GuestRoom', params: {"code" : this.evtCode.trim()}});
     }
   }
 }
 </script>
 
 <style>
+#app {
+  text-align: center;
+}
 .title h1 {
   margin-top: 200px;
   font-size: 40px;
 }
 .body {
   margin-top: 40px;
+  margin-left: 10%;
+  margin-right: 10%;
 }
 .body input {
   height: 50px;
