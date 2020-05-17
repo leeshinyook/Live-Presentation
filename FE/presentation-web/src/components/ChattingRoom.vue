@@ -4,11 +4,13 @@
   <div class="profile">
     <img v-bind:src="this.user.picture" alt="Google Image" height="50px" width="50px">
     <strong>{{user.name}}</strong>님 안녕하세요!
+
   </div>
   <div class="create_event">
   <span>
-    <span v-if="this.user.uniqueNumber" class="unique_num">{{user.uniqueNumber}}</span>
-    <button v-on:click="CreateUniqNum()" class="btn btn-primary">고유번호 발급받기</button>
+    <span v-if="this.user.uniqueNumber" class="unique_num">이벤트코드 : {{user.uniqueNumber}}</span>
+    <button v-on:click="CreateUniqNum()" class="btn btn-primary">이벤트코드 발급받기</button>
+    <button id="poll" class="btn btn-primary" @click="StartPoll">투표시작하기</button>
   </span>
   </div>
   </div>
@@ -32,12 +34,20 @@
       </ul>
     </div>
   </div>
+  <poll-modal
+      v-if="showPollModal"
+      @close="showPollModal=false"
+    ></poll-modal>
 </div>
 </template>
 
 <script>
 const CryptoJS = require('crypto-js');
+import PollModal from './PollModal.vue';
 export default {
+  components: {
+    'poll-modal': PollModal,
+  },
   created() {
     this.$axios.get("/auth/account").then(res => {
       this.user.name = res.data.name;
@@ -59,7 +69,8 @@ export default {
       message: '',
       textarea: '',
       recentLogs: [],
-      cryptoFlag: false
+      cryptoFlag: false,
+      showPollModal: false,
     }
   },
   methods: {
@@ -85,6 +96,9 @@ export default {
       }
       this.$socket.emit('chat', load);
       this.message = '';
+    },
+    StartPoll() {
+      this.showPollModal = true;
     }
   }
 }
