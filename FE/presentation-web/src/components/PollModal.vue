@@ -80,6 +80,12 @@ export default {
   methods: {
     StartPoll() {
       console.log(this.$store.getters.getRoomNumber);
+      let load = {
+        roomId: this.$store.getters.getRoomNumber,
+        contents: this.contents,
+        pollTitle: this.inputContent
+      };
+      this.$socket.emit("sendPoll", load);
       this.$emit("close");
     },
     AddFlag() {
