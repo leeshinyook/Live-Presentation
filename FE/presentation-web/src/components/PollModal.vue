@@ -1,33 +1,70 @@
 <template>
   <transition name="modal">
-
     <div class="modal-mask">
       <div class="modal-wrapper">
         <div class="modal-container">
-
           <div class="modal-header">
             <slot name="header">투표시스템</slot>
           </div>
 
           <div class="modal-body">
             <div class="title">
-
-              <input type="text"  class="form-control" placeholder="투표제목을 입력해주세요" >
+              <input
+                type="text"
+                class="form-control"
+                placeholder="투표제목을 입력해주세요"
+              />
             </div>
 
-             <ul>
-               <li v-for="(content, idx) in contents" :key="idx">
-                 <div class="poll_list"><button type="button" class="btn btn-danger" @click="removeContent(idx)"><i class="fa fa-minus" aria-hidden="true"></i></button> {{content}}</div>
-               </li>
-             </ul>
-             <input id="content" type="text" v-model="inputContent" class="form-control" placeholder="투표내용을 입력해주세요" v-if="insertContent">
-            <button class="btn btn-primary" @click="AddFlag()" v-if="!insertContent"><i class="fa fa-plus-circle" aria-hidden="true"></i> 항목추가</button>
-            <button class="btn btn-success" @click="AddContent()" v-if="insertContent"><i class="fa fa-plus" aria-hidden="true"></i> 확인</button>
-            <button class="btn btn-warning" @click="CancleContent()" v-if="insertContent"><i class="fa fa-times" aria-hidden="true"></i> 취소</button>
+            <ul>
+              <li v-for="(content, idx) in contents" :key="idx">
+                <div class="poll_list">
+                  <button
+                    type="button"
+                    class="btn btn-danger"
+                    @click="removeContent(idx)"
+                  >
+                    <i class="fa fa-minus" aria-hidden="true"></i>
+                  </button>
+                  {{ content }}
+                </div>
+              </li>
+            </ul>
+            <input
+              id="content"
+              type="text"
+              v-model="inputContent"
+              class="form-control"
+              placeholder="투표내용을 입력해주세요"
+              v-if="insertContent"
+            />
+            <button
+              class="btn btn-primary"
+              @click="AddFlag()"
+              v-if="!insertContent"
+            >
+              <i class="fa fa-plus-circle" aria-hidden="true"></i> 항목추가
+            </button>
+            <button
+              class="btn btn-success"
+              @click="AddContent()"
+              v-if="insertContent"
+            >
+              <i class="fa fa-plus" aria-hidden="true"></i> 확인
+            </button>
+            <button
+              class="btn btn-warning"
+              @click="CancleContent()"
+              v-if="insertContent"
+            >
+              <i class="fa fa-times" aria-hidden="true"></i> 취소
+            </button>
           </div>
           <div class="modal-footer">
             <slot name="footer">
-              <button class="modal-default-button" @click="StartPoll()">투표시작하기</button>
+              <button class="modal-default-button" @click="StartPoll()">
+                투표시작하기
+              </button>
             </slot>
           </div>
         </div>
@@ -37,21 +74,27 @@
 </template>
 
 <script>
+import { EventBus } from "../../modules/eventBus";
 export default {
-  created() {
-  },
-
+  created() {},
   methods: {
     StartPoll() {
-      this.$emit('close');
+      console.log(this.$store.getters.getRoomNumber);
+      let load = {
+        roomId: this.$store.getters.getRoomNumber,
+        contents: this.contents,
+        pollTitle: this.inputContent
+      };
+      this.$socket.emit("sendPoll", load);
+      this.$emit("close");
     },
     AddFlag() {
       this.insertContent = true;
     },
     AddContent() {
       this.insertContent = false;
-      this.contents.push(this.inputContent)
-      this.inputContent = '';
+      this.contents.push(this.inputContent);
+      this.inputContent = "";
     },
     CancleContent() {
       this.insertContent = false;
@@ -60,7 +103,7 @@ export default {
       this.contents.splice(idx, 1);
     },
     CancelPoll() {
-      this.$emit('close');
+      this.$emit("close");
     }
   },
 
@@ -68,9 +111,9 @@ export default {
     return {
       contents: [],
       insertContent: false,
-      inputContent: ''
+      inputContent: ""
     };
-  },
+  }
 };
 </script>
 
