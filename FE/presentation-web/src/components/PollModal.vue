@@ -12,6 +12,7 @@
               <input
                 type="text"
                 class="form-control"
+                v-model="title"
                 placeholder="투표제목을 입력해주세요"
               />
             </div>
@@ -79,11 +80,10 @@ export default {
   created() {},
   methods: {
     StartPoll() {
-      console.log(this.$store.getters.getRoomNumber);
       let load = {
         roomId: this.$store.getters.getRoomNumber,
         contents: this.contents,
-        pollTitle: this.inputContent
+        pollTitle: this.title
       };
       this.$socket.emit("sendPoll", load);
       this.$emit("close");
@@ -111,7 +111,8 @@ export default {
     return {
       contents: [],
       insertContent: false,
-      inputContent: ""
+      inputContent: "",
+      title: ""
     };
   }
 };
