@@ -62,6 +62,16 @@ module.exports = function(server, pub, sub, store) {
       });
       pub.publish('sub', reply);
     });
+    socket.on('updatePoll', data => {
+      let reply = JSON.stringify({
+        event: 'updatePoll',
+        roomId: data.roomId,
+        contents: data.contents,
+        pollTitle: data.pollTitle,
+        sendType: 'sendToAllClientsInRoom'
+      });
+      pub.publish('sub', reply);
+    });
     socket.on('disconnect', () => {
       console.log('disconnected');
     });
