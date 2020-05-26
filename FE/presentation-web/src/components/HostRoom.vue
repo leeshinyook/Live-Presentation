@@ -2,26 +2,16 @@
   <div>
     <div id="header">
       <div class="profile">
-        <img
-          v-bind:src="this.user.picture"
-          alt="Google Image"
-          height="50px"
-          width="50px"
-        />
+        <img v-bind:src="this.user.picture" alt="Google Image" height="50px" width="50px" />
         <strong>{{ user.name }}</strong>
         님 안녕하세요!
       </div>
       <div class="create_event">
         <span>
-          <span v-if="this.user.uniqueNumber" class="unique_num"
-            >이벤트코드 : {{ user.uniqueNumber }}</span
-          >
-          <button v-on:click="CreateUniqNum()" class="btn btn-primary">
-            이벤트코드 발급받기
-          </button>
-          <button id="poll" class="btn btn-primary" @click="StartPoll">
-            투표시작하기
-          </button>
+          <span v-if="this.user.uniqueNumber" class="unique_num">이벤트코드 : {{ user.uniqueNumber }}</span>
+          <button v-on:click="CreateUniqNum()" class="btn btn-primary">이벤트코드 발급받기</button>
+          <button id="poll" class="btn btn-primary" @click="StartPoll">투표시작하기</button>
+          <button id="poll" class="btn btn-primary" @click="ShowResultPoll">실시간 투표 현황조회</button>
         </span>
       </div>
     </div>
@@ -44,20 +34,20 @@
         </ul>
       </div>
     </div>
-    <poll-modal
-      v-if="showPollModal"
-      @close="showPollModal = false"
-    ></poll-modal>
+    <poll-modal v-if="showPollModal" @close="showPollModal = false"></poll-modal>
+    <poll-result-modal v-if="pollResultFlag" @close="pollResultFlag = false"></poll-result-modal>
   </div>
 </template>
 
 <script>
 const CryptoJS = require("crypto-js");
 import PollModal from "./PollModal.vue";
+import PollResultModal from "./PollResultModal.vue";
 import { EventBus } from "../../modules/eventBus";
 export default {
   components: {
-    "poll-modal": PollModal
+    "poll-modal": PollModal,
+    "poll-result-modal": PollResultModal
   },
   created() {
     this.$axios.get("/auth/account").then(res => {
@@ -67,6 +57,9 @@ export default {
     });
     this.$socket.on("chat", data => {
       this.recentLogs.push(data);
+    });
+    this.$socket.on("updatePoll", data => {
+      console.log(data);
     });
   },
   data() {
@@ -81,7 +74,8 @@ export default {
       textarea: "",
       recentLogs: [],
       cryptoFlag: false,
-      showPollModal: false
+      showPollModal: false,
+      pollResultFlag: false
     };
   },
   methods: {
@@ -116,6 +110,9 @@ export default {
     StartPoll() {
       this.$store.commit("setRoomNumber", this.user.uniqueNumber);
       this.showPollModal = true;
+    },
+    ShowResultPoll() {
+      this.pollResultFlag = true;
     }
   }
 };

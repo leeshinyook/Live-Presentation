@@ -9,25 +9,16 @@
 
           <div class="modal-body">
             <div class="title">
-              <input
-                type="text"
-                class="form-control"
-                v-model="title"
-                placeholder="투표제목을 입력해주세요"
-              />
+              <input type="text" class="form-control" v-model="title" placeholder="투표제목을 입력해주세요" />
             </div>
 
             <ul>
-              <li v-for="(content, idx) in contents" :key="idx">
+              <li v-for="(poll, idx) in contents" :key="idx">
                 <div class="poll_list">
-                  <button
-                    type="button"
-                    class="btn btn-danger"
-                    @click="removeContent(idx)"
-                  >
+                  <button type="button" class="btn btn-danger" @click="removeContent(idx)">
                     <i class="fa fa-minus" aria-hidden="true"></i>
                   </button>
-                  {{ content }}
+                  {{ poll.content }}
                 </div>
               </li>
             </ul>
@@ -39,33 +30,19 @@
               placeholder="투표내용을 입력해주세요"
               v-if="insertContent"
             />
-            <button
-              class="btn btn-primary"
-              @click="AddFlag()"
-              v-if="!insertContent"
-            >
+            <button class="btn btn-primary" @click="AddFlag()" v-if="!insertContent">
               <i class="fa fa-plus-circle" aria-hidden="true"></i> 항목추가
             </button>
-            <button
-              class="btn btn-success"
-              @click="AddContent()"
-              v-if="insertContent"
-            >
+            <button class="btn btn-success" @click="AddContent()" v-if="insertContent">
               <i class="fa fa-plus" aria-hidden="true"></i> 확인
             </button>
-            <button
-              class="btn btn-warning"
-              @click="CancleContent()"
-              v-if="insertContent"
-            >
+            <button class="btn btn-warning" @click="CancleContent()" v-if="insertContent">
               <i class="fa fa-times" aria-hidden="true"></i> 취소
             </button>
           </div>
           <div class="modal-footer">
             <slot name="footer">
-              <button class="modal-default-button" @click="StartPoll()">
-                투표시작하기
-              </button>
+              <button class="modal-default-button" @click="StartPoll()">투표시작하기</button>
             </slot>
           </div>
         </div>
@@ -92,8 +69,12 @@ export default {
       this.insertContent = true;
     },
     AddContent() {
+      let load = {
+        content: this.inputContent,
+        pollCnt: 0
+      };
       this.insertContent = false;
-      this.contents.push(this.inputContent);
+      this.contents.push(load);
       this.inputContent = "";
     },
     CancleContent() {
