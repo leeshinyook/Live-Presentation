@@ -85,9 +85,17 @@ export default {
       this.textarea += data.message + "\n";
     });
     this.$socket.on("sendPoll", data => {
+      console.log("sendPoll")
+      console.log(data);
       this.polls.push(data);
       this.pollFlag = true;
     });
+    this.$socket.on("updatePoll", data => {
+      console.log("updatePoll")
+      console.log(data.contents[0])
+      this.polls = [];
+      this.polls.push(data.contents[0]);
+    })
   },
   data() {
     return {
@@ -135,6 +143,8 @@ export default {
         pollTitle: this.title
       };
       this.$socket.emit("updatePoll", load);
+      this.pollFlag = false;
+      this.polls = [];
       // poll부분 초기화 필요.
     },
     startPoll() {},

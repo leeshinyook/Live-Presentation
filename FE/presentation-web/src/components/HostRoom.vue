@@ -13,6 +13,16 @@
           <button id="poll" class="btn btn-primary" @click="StartPoll">투표시작하기</button>
           <button id="poll" class="btn btn-primary" @click="ShowResultPoll">실시간 투표 현황조회</button>
         </span>
+        <div v-if="this.pollResultFlag">
+          <div class="poll_result">
+            {{polls[0].pollTitle}}
+          <ul>
+            <li v-for="(poll, idx) in polls[0].contents" :key="idx">
+              {{poll.content}} {{poll.pollCnt}}
+            </li>
+          </ul>
+          </div>
+        </div>
       </div>
     </div>
     <div class="body">
@@ -35,20 +45,17 @@
       </div>
     </div>
     <poll-modal v-if="showPollModal" @close="showPollModal = false"></poll-modal>
-    <poll-result-modal v-if="pollResultFlag" @close="pollResultFlag = false"></poll-result-modal>
   </div>
 </template>
 
 <script>
 const CryptoJS = require("crypto-js");
 import PollModal from "./PollModal.vue";
-import PollResultModal from "./PollResultModal.vue";
 import { EventBus } from "../../modules/eventBus";
 export default {
   components: {
-    "poll-modal": PollModal,
-    "poll-result-modal": PollResultModal
-  },
+    "poll-modal": PollModal
+   },
   created() {
     this.$axios.get("/auth/account").then(res => {
       this.user.name = res.data.name;
@@ -59,8 +66,9 @@ export default {
       this.recentLogs.push(data);
     });
     this.$socket.on("updatePoll", data => {
-      console.log(data);
-    });
+      this.polls = [];
+      this.polls.push(data.contents[0]);
+    })
   },
   data() {
     return {
@@ -75,7 +83,8 @@ export default {
       recentLogs: [],
       cryptoFlag: false,
       showPollModal: false,
-      pollResultFlag: false
+      pollResultFlag: false,
+      polls:[]
     };
   },
   methods: {
@@ -179,5 +188,10 @@ ul {
 }
 .board_table .message {
   padding: 5px;
+}
+.poll_result {
+  border: 1px solid black;
+  border-radius: 5px;
+  margin: 5px;
 }
 </style>
