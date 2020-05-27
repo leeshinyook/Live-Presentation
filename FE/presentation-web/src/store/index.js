@@ -5,7 +5,8 @@ Vue.use(Vuex);
 
 const store = new Vuex.Store({
   state: {
-    roomNum: ""
+    roomNum: "",
+    resultPollFlag: false
   },
   mutations: {
     setRoomNumber: function(state, payload) {
@@ -15,6 +16,14 @@ const store = new Vuex.Store({
   getters: {
     getRoomNumber: function(state) {
       return state.roomNum;
+    },
+    getPollFlag: function(state) {
+      return state.resultPollFlag;
+    }
+  },
+  mutations: {
+    changePollFlag: function() {
+      state.resultPollFlag = !state.resultPollFlag;
     }
   }
 });

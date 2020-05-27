@@ -3,12 +3,30 @@ module.exports = function(server, pub, sub, store) {
 	sub.on('message', function(channel, data) {
 		data = JSON.parse(data);
 		if (data.sendType === 'sendToAllClientsInRoom') {
-			let reply = {
-				message: data.message,
-				roomId: data.roomId,
-				nickName: data.nickName
-			};
-			io.sockets.to(data.roomId).emit(data.event, reply);
+			if (data.event === 'chat') {
+				let reply = {
+					message: data.message,
+					roomId: data.roomId,
+					nickName: data.nickName
+				};
+				io.sockets.to(data.roomId).emit(data.event, reply);
+			}
+			if (data.event === 'sendPoll') {
+				let reply = {
+					contents: data.contents,
+					roomId: data.roomId,
+					pollTitle: data.pollTitle
+				};
+				io.sockets.to(data.roomId).emit(data.event, reply);
+			}
+			if (data.event === 'updatePoll') {
+				let reply = {
+					contents: data.contents,
+					roomId: data.roomId,
+					pollTitle: data.pollTitle
+				};
+				io.sockets.to(data.roomId).emit(data.event, reply);
+			}
 		}
 		if (data.sendType === 'sentToSelf') {
 			io.emit(data.event, data.data);
@@ -17,17 +35,9 @@ module.exports = function(server, pub, sub, store) {
 	io.on('connection', (socket) => {
 		console.log('a user connected' + socket);
 		socket.on('join', (data) => {
-			// let reply = JSON.stringify({
-			// 	event: 'chat',
-			// 	message: '',
-			// 	roomId: data,
-			// 	sendType: 'sendToAllClientsInRoom'
-			// });
 			socket.join(data);
-			// pub.publish('sub', reply);
 		});
 		socket.on('chat', (data) => {
-			console.log(data);
 			let reply = JSON.stringify({
 				event: 'chat',
 				message: data.message,
@@ -49,6 +59,27 @@ module.exports = function(server, pub, sub, store) {
 			store.get(data, (err, reply) => {
 				io.emit('getRoomHostName', reply);
 			});
+		});
+		socket.on('sendPoll', (data) => {
+			let reply = JSON.stringify({
+				event: 'sendPoll',
+				roomId: data.roomId,
+				contents: data.contents,
+				pollTitle: data.pollTitle,
+				sendType: 'sendToAllClientsInRoom'
+			});
+			pub.publish('sub', reply);
+		});
+		socket.on('updatePoll', (data) => {
+			console.log(data);
+			let reply = JSON.stringify({
+				event: 'updatePoll',
+				roomId: data.roomId,
+				contents: data.contents,
+				pollTitle: data.pollTitle,
+				sendType: 'sendToAllClientsInRoom'
+			});
+			pub.publish('sub', reply);
 		});
 		socket.on('disconnect', () => {
 			console.log('disconnected');

@@ -2,27 +2,27 @@
   <div>
     <div id="header">
       <div class="profile">
-        <img
-          v-bind:src="this.user.picture"
-          alt="Google Image"
-          height="50px"
-          width="50px"
-        />
+        <img v-bind:src="this.user.picture" alt="Google Image" height="50px" width="50px" />
         <strong>{{ user.name }}</strong>
         님 안녕하세요!
       </div>
       <div class="create_event">
         <span>
-          <span v-if="this.user.uniqueNumber" class="unique_num"
-            >이벤트코드 : {{ user.uniqueNumber }}</span
-          >
-          <button v-on:click="CreateUniqNum()" class="btn btn-primary">
-            이벤트코드 발급받기
-          </button>
-          <button id="poll" class="btn btn-primary" @click="StartPoll">
-            투표시작하기
-          </button>
+          <span v-if="this.user.uniqueNumber" class="unique_num">이벤트코드 : {{ user.uniqueNumber }}</span>
+          <button v-on:click="CreateUniqNum()" class="btn btn-primary">이벤트코드 발급받기</button>
+          <button id="poll" class="btn btn-primary" @click="StartPoll">투표시작하기</button>
+          <button id="poll" class="btn btn-primary" @click="ShowResultPoll">실시간 투표 현황조회</button>
         </span>
+        <div v-if="this.pollResultFlag">
+          <div class="poll_result">
+            {{polls[0].pollTitle}}
+          <ul>
+            <li v-for="(poll, idx) in polls[0].contents" :key="idx">
+              {{poll.content}} {{poll.pollCnt}}
+            </li>
+          </ul>
+          </div>
+        </div>
       </div>
     </div>
     <div class="body">
@@ -44,10 +44,7 @@
         </ul>
       </div>
     </div>
-    <poll-modal
-      v-if="showPollModal"
-      @close="showPollModal = false"
-    ></poll-modal>
+    <poll-modal v-if="showPollModal" @close="showPollModal = false"></poll-modal>
   </div>
 </template>
 
@@ -58,7 +55,7 @@ import { EventBus } from "../../modules/eventBus";
 export default {
   components: {
     "poll-modal": PollModal
-  },
+   },
   created() {
     this.$axios.get("/auth/account").then(res => {
       this.user.name = res.data.name;
@@ -68,6 +65,10 @@ export default {
     this.$socket.on("chat", data => {
       this.recentLogs.push(data);
     });
+    this.$socket.on("updatePoll", data => {
+      this.polls = [];
+      this.polls.push(data.contents[0]);
+    })
   },
   data() {
     return {
@@ -81,7 +82,9 @@ export default {
       textarea: "",
       recentLogs: [],
       cryptoFlag: false,
-      showPollModal: false
+      showPollModal: false,
+      pollResultFlag: false,
+      polls:[]
     };
   },
   methods: {
@@ -116,6 +119,9 @@ export default {
     StartPoll() {
       this.$store.commit("setRoomNumber", this.user.uniqueNumber);
       this.showPollModal = true;
+    },
+    ShowResultPoll() {
+      this.pollResultFlag = true;
     }
   }
 };
@@ -182,5 +188,10 @@ ul {
 }
 .board_table .message {
   padding: 5px;
+}
+.poll_result {
+  border: 1px solid black;
+  border-radius: 5px;
+  margin: 5px;
 }
 </style>
