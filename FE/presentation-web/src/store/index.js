@@ -16,7 +16,7 @@ const store = new Vuex.Store({
 		changePollFlag: function() {
 			state.resultPollFlag = !state.resultPollFlag;
 		},
-		setInitLikeCnt: function() {
+		setInitLikeCnt: function(state) {
 			state.likeCnt.push(0);
 		},
 		incrementLikeCnt: function(state, payload) {
