@@ -6,7 +6,8 @@ Vue.use(Vuex);
 const store = new Vuex.Store({
 	state: {
 		roomNum: '',
-		resultPollFlag: false
+		resultPollFlag: false,
+		likeCnt: []
 	},
 	mutations: {
 		setRoomNumber: function(state, payload) {
@@ -14,6 +15,12 @@ const store = new Vuex.Store({
 		},
 		changePollFlag: function() {
 			state.resultPollFlag = !state.resultPollFlag;
+		},
+		setInitLikeCnt: function() {
+			state.likeCnt.push(0);
+		},
+		incrementLikeCnt: function(state, payload) {
+			state.likeCnt[payload]++;
 		}
 	},
 	getters: {
@@ -22,6 +29,9 @@ const store = new Vuex.Store({
 		},
 		getPollFlag: function(state) {
 			return state.resultPollFlag;
+		},
+		getLikeCnt: function(state) {
+			return state.likeCnt;
 		}
 	}
 });
