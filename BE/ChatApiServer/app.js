@@ -14,6 +14,7 @@ const store = redis.createClient(6379, 'localhost');
 const pub = redis.createClient(6379, 'localhost');
 const sub = redis.createClient(6379, 'localhost');
 const io = require('./socket/RoomSocket')(server, pub, sub, store);
+io.heartbeatTimeout = 20000;
 
 app.use(cors());
 app.set('view engine', 'ejs');
