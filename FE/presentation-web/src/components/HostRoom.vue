@@ -39,6 +39,7 @@
                 {{ log.nickName }}
               </div>
               <div class="message">{{ log.message }}</div>
+              <div><i class="fa fa-heart" aria-hidden="true"></i></div>
             </div>
           </li>
         </ul>

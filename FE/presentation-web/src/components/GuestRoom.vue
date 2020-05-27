@@ -6,7 +6,6 @@
         <h3>{{hostName}}님의 이벤트</h3>
         <span v-if="pollFlag">
           <i class="fa fa-bell" aria-hidden="true"></i> 실시간 투표가 등록되었습니다.
-          <button @click="startPoll()">투표하기</button>
           <div class="poll_table">
             <div class="poll_title">{{polls[0].pollTitle}}</div>
             <ul>
@@ -32,6 +31,7 @@
               {{log.nickName}}
             </div>
             <div class="message">{{log.message}}</div>
+            <div><i class="fa fa-heart" aria-hidden="true"></i></div>
           </div>
         </li>
       </ul>
@@ -147,7 +147,6 @@ export default {
       this.polls = [];
       // poll부분 초기화 필요.
     },
-    startPoll() {},
     SelectPoll() {}
   }
 };
