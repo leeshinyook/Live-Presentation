@@ -7,6 +7,7 @@ module.exports = function(server, pub, sub, store) {
 				let reply = {
 					message: data.message,
 					roomId: data.roomId,
+					likeCnt: data.likeCnt,
 					nickName: data.nickName
 				};
 				io.sockets.to(data.roomId).emit(data.event, reply);
@@ -27,6 +28,14 @@ module.exports = function(server, pub, sub, store) {
 				};
 				io.sockets.to(data.roomId).emit(data.event, reply);
 			}
+			if (data.event === 'likeUp') {
+				let reply = {
+					roomId: data.roomId,
+					msgCnt: data.msgCnt,
+					msgIdx: data.msgIdx
+				};
+				io.sockets.to(data.roomId).emit(data.event, reply);
+			}
 		}
 		if (data.sendType === 'sentToSelf') {
 			io.emit(data.event, data.data);
@@ -38,11 +47,13 @@ module.exports = function(server, pub, sub, store) {
 			socket.join(data);
 		});
 		socket.on('chat', (data) => {
+			console.log(data);
 			let reply = JSON.stringify({
 				event: 'chat',
 				message: data.message,
 				roomId: data.roomId,
 				nickName: data.nickName,
+				likeCnt: data.likeCnt,
 				sendType: 'sendToAllClientsInRoom'
 			});
 			pub.publish('sub', reply);
@@ -77,6 +88,17 @@ module.exports = function(server, pub, sub, store) {
 				roomId: data.roomId,
 				contents: data.contents,
 				pollTitle: data.pollTitle,
+				sendType: 'sendToAllClientsInRoom'
+			});
+			pub.publish('sub', reply);
+		});
+		socket.on('likeUp', (data) => {
+			console.log(data);
+			let reply = JSON.stringify({
+				event: 'likeUp',
+				roomId: data.roomId,
+				msgIdx: data.msgIdx,
+				msgCnt: data.msgCnt,
 				sendType: 'sendToAllClientsInRoom'
 			});
 			pub.publish('sub', reply);
