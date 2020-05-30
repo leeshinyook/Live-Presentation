@@ -39,7 +39,7 @@
                 {{ log.nickName }}
               </div>
               <div class="message">{{ log.message }}</div>
-              <div><i class="fa fa-heart" aria-hidden="true"></i></div>
+              <div><i class="fa fa-heart" aria-hidden="true"></i> {{log.likeCnt}}</div>
             </div>
           </li>
         </ul>
@@ -102,7 +102,6 @@ export default {
       this.CreateRoom();
     },
     CreateRoom() {
-      console.log("createRoom");
       let load = {
         userName: this.user.name,
         roomId: this.user.uniqueNumber
