@@ -9,6 +9,7 @@
       <div>익명으로 질문해주세요!</div>
         <input type="text" v-model="evtCode" class="form-control" placeholder="이벤트 코드입력하기">
         <button type="button" class="btn btn-primary btn-lg btn-block" @click="joinRoom">입장하기</button>
+        <div class="err_msg">{{errMsg}}</div>
     </div>
     <div class="footer">
       <div>이벤트를 만들고 싶다면, 로그인을 해주세요!</div>
@@ -21,18 +22,27 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
+
   data() {
     return {
       evtCode: "",
+      errMsg: ''
     }
   },
   methods: {
     joinRoom() {
-      // const qs = this.evtCode;
-      this.$socket.emit('join', this.evtCode.trim());
-      // this.$router.push({path: 'GuestRoom'});
-      this.$router.push({name: 'GuestRoom', params: {"code" : this.evtCode.trim()}});
+      this.$axios.post('/api/room',{code : this.evtCode.trim()}).then(res => {
+        if(res.data.result === 'success') {
+          this.$socket.emit('join', this.evtCode.trim());
+          this.$router.push({name: 'GuestRoom', params: {"code" : this.evtCode.trim()}});
+        } else {
+          this.errMsg = "존재하지 않는 이벤트코드 입니다!"
+        }
+      })
+
+
     }
   }
 }
@@ -41,6 +51,9 @@ export default {
 <style>
 #app {
   text-align: center;
+}
+.err_msg {
+  color: red;
 }
 .title h1 {
   margin-top: 200px;
