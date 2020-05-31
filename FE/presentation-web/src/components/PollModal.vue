@@ -42,7 +42,10 @@
           </div>
           <div class="modal-footer">
             <slot name="footer">
-              <button class="modal-default-button" @click="StartPoll()">투표시작하기</button>
+              <span>
+              <button class="btn btn-success" @click="StartPoll()" id="footer_button">투표시작하기</button>
+              <button class="btn btn-warning" @click="CancelPoll()" id="footer_button">취소하기</button>
+              </span>
             </slot>
           </div>
         </div>
@@ -131,9 +134,8 @@ export default {
   font-family: Helvetica, Arial, sans-serif;
 }
 
-.modal-header h3 {
+.modal-header {
   margin-top: 0;
-  color: #42b983;
 }
 
 .modal-body {
@@ -150,9 +152,9 @@ export default {
 }
 
 .modal-default-button {
-  display: block;
+  display: inline;
   margin: 0 auto;
-  width: 300px;
+  width: 200px;
   margin-top: 20px;
   padding: 10px;
   font-size: 20px;
@@ -201,11 +203,11 @@ ul button {
   font-size: 20px;
 }
 .modal-footer {
+  font-size: 20px;
+  text-align: center;
   padding-bottom: 0;
 }
-.agree_check {
-  display: block;
-  text-align: right;
-  font-size: 15px;
+#footer_button {
+  font-size: 20px;
 }
 </style>
