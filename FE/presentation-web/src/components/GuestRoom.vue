@@ -76,6 +76,7 @@
 </template>
 
 <script>
+const uuid = require('uuid');
 export default {
   created() {
     this.roomNumber = this.$route.params.code;
@@ -98,10 +99,14 @@ export default {
     })
     this.$socket.on("likeUp", data => {
       let load = {
-        msgIdx: data.msgIdx,
+        id: data.id,
         msgCnt: data.msgCnt
       }
-      this.logs[load.msgIdx].likeCnt = load.msgCnt;
+      this.logs.forEach(ele => {
+        if(ele.id === load.id) {
+          ele.likeCnt = load.msgCnt;
+        }
+      })
     })
   },
   data() {
@@ -131,6 +136,7 @@ export default {
         message: this.register.message,
         roomId: this.roomNumber,
         nickName: this.register.nickname,
+        id: uuid.v1(),
         likeCnt: 0
       };
       this.$socket.emit("chat", msg);
@@ -159,7 +165,7 @@ export default {
     Like(idx){
       let load = {
         roomId: this.roomNumber,
-        msgIdx: idx,
+        id: this.logs[idx].id,
         msgCnt: this.logs[idx].likeCnt
       }
       this.$socket.emit('likeUp', load);

@@ -72,10 +72,14 @@ export default {
     });
     this.$socket.on("likeUp", data => {
       let load = {
-        msgIdx: data.msgIdx,
+        id: data.id,
         msgCnt: data.msgCnt
       }
-      this.recentLogs[load.msgIdx].likeCnt = load.msgCnt;
+      this.recentLogs.forEach(ele => {
+        if(ele.id === load.id) {
+          ele.likeCnt = load.msgCnt;
+        }
+      })
     })
   },
   data() {
