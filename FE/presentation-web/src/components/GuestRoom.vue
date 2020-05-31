@@ -85,6 +85,7 @@ export default {
     this.$socket.on("chat", data => {
       this.logs.push(data);
       this.like.push();
+      this.likeFlag.push(false);
       this.textarea += data.message + "\n";
     });
     this.$socket.on("sendPoll", data => {
@@ -98,6 +99,17 @@ export default {
       }
     })
     this.$socket.on("likeUp", data => {
+      let load = {
+        id: data.id,
+        msgCnt: data.msgCnt
+      }
+      this.logs.forEach(ele => {
+        if(ele.id === load.id) {
+          ele.likeCnt = load.msgCnt;
+        }
+      })
+    })
+    this.$socket.on("likeDown", data => {
       let load = {
         id: data.id,
         msgCnt: data.msgCnt
@@ -123,7 +135,8 @@ export default {
       logs: [],
       polls: [],
       checkedPoll: [],
-      like: []
+      like: [],
+      likeFlag: []
     };
   },
   methods: {
@@ -165,12 +178,23 @@ export default {
 
     },
     Like(idx){
-      let load = {
+      if(!this.likeFlag[idx]) { // like
+        let load = {
         roomId: this.roomNumber,
         id: this.logs[idx].id,
         msgCnt: this.logs[idx].likeCnt
+        }
+        this.likeFlag[idx] = true;
+        this.$socket.emit('likeUp', load);
+      } else { // unlike
+        let load = {
+          roomId: this.roomNumber,
+          id: this.logs[idx].id,
+          msgCnt: this.logs[idx].likeCnt
+        }
+        this.likeFlag[idx] = false;
+        this.$socket.emit("likeDown", load);
       }
-      this.$socket.emit('likeUp', load);
     }
   }
 };
