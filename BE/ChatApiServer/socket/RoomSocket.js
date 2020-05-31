@@ -31,7 +31,7 @@ module.exports = function(server, pub, sub, store) {
 			if (data.event === 'likeUp') {
 				let reply = {
 					roomId: data.roomId,
-					msgCnt: data.msgCnt,
+					msgCnt: data.msgCnt * 1 + 1,
 					msgIdx: data.msgIdx
 				};
 				io.sockets.to(data.roomId).emit(data.event, reply);

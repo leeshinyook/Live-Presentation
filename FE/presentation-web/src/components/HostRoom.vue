@@ -69,6 +69,13 @@ export default {
     this.$socket.on("updatePoll", data => {
       this.polls = [];
       this.polls.push(data.contents[0]);
+    });
+    this.$socket.on("likeUp", data => {
+      let load = {
+        msgIdx: data.msgIdx,
+        msgCnt: data.msgCnt
+      }
+      this.recentLogs[load.msgIdx].likeCnt = load.msgCnt;
     })
   },
   data() {

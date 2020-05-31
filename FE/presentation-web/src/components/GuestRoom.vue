@@ -27,11 +27,14 @@
         <li v-for="(log, idx) in logs" :key="idx">
           <div class="board_table">
             <div class="author">
+              {{idx}} 번
               <i class="fa fa-user-circle-o" aria-hidden="true"></i>
               {{log.nickName}}
             </div>
             <div class="message">{{log.message}}</div>
-            <div><i class="fa fa-heart" aria-hidden="true"></i></div>
+            <div><button @click="Like(idx)"><i class="fa fa-heart" aria-hidden="true"></i></button>
+              {{log.likeCnt}}
+            </div>
           </div>
         </li>
       </ul>
@@ -82,19 +85,23 @@ export default {
     });
     this.$socket.on("chat", data => {
       this.logs.push(data);
+      this.like.push();
       this.textarea += data.message + "\n";
     });
     this.$socket.on("sendPoll", data => {
-      console.log("sendPoll")
-      console.log(data);
       this.polls.push(data);
       this.pollFlag = true;
     });
     this.$socket.on("updatePoll", data => {
-      console.log("updatePoll")
-      console.log(data.contents[0])
       this.polls = [];
       this.polls.push(data.contents[0]);
+    })
+    this.$socket.on("likeUp", data => {
+      let load = {
+        msgIdx: data.msgIdx,
+        msgCnt: data.msgCnt
+      }
+      this.logs[load.msgIdx].likeCnt = load.msgCnt;
     })
   },
   data() {
@@ -106,11 +113,12 @@ export default {
       pollFlag: false,
       register: {
         nickname: "",
-        message: ""
+        message: "",
       },
       logs: [],
       polls: [],
-      checkedPoll: []
+      checkedPoll: [],
+      like: []
     };
   },
   methods: {
@@ -122,9 +130,11 @@ export default {
       let msg = {
         message: this.register.message,
         roomId: this.roomNumber,
-        nickName: this.register.nickname
+        nickName: this.register.nickname,
+        likeCnt: 0
       };
       this.$socket.emit("chat", msg);
+      this.$store.commit("setInitLikeCnt");
       this.message = "";
       this.Regist();
       this.reset();
@@ -145,9 +155,15 @@ export default {
       this.$socket.emit("updatePoll", load);
       this.pollFlag = false;
       this.polls = [];
-      // poll부분 초기화 필요.
     },
-    SelectPoll() {}
+    Like(idx){
+      let load = {
+        roomId: this.roomNumber,
+        msgIdx: idx,
+        msgCnt: this.logs[idx].likeCnt
+      }
+      this.$socket.emit('likeUp', load);
+    }
   }
 };
 </script>
