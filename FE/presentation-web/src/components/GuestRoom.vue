@@ -30,7 +30,8 @@
               {{log.nickName}}
             </div>
             <div class="message">{{log.message}}</div>
-            <div><i class="fa fa-heart" aria-hidden="true" @click="Like(idx)"></i>
+            <div><i class="fa fa-heart" aria-hidden="true" @click="Like(idx)" v-if="!likeFlag[idx]"></i>
+            <i class="fa fa-heart" aria-hidden="true" @click="Like(idx)" id="heart_color" v-else></i>
               {{log.likeCnt}}
             </div>
           </div>
@@ -139,6 +140,11 @@ export default {
       likeFlag: []
     };
   },
+  computed: {
+    myColor(idx) {
+      return this.likeFlag[idx] ? 'red' : 'black';
+    }
+  },
   methods: {
     reset() {
       this.register.message = "";
@@ -208,7 +214,9 @@ export default {
 #submit_button {
   font-size: 17px;
   letter-spacing: 2px;
-
+}
+#heart_color {
+  color: red;
 }
 ul {
   list-style: none;
