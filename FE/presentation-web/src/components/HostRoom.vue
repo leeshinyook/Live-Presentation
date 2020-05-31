@@ -175,7 +175,7 @@ export default {
   text-align: center;
 }
 #name {
-  font-size: 20px;
+  font-size: 25px;
 }
 #poll {
   font-size: 17px;

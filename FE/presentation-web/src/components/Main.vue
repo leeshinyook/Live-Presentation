@@ -12,7 +12,7 @@
     </div>
     <div class="footer">
       <div class="explain_text">이벤트를 만들고 싶다면, 로그인을 해주세요!</div>
-      <a href="/auth/auth/google"><button type="button" class="btn btn-primary">Login with <i class="fa fa-google" aria-hidden="true"></i>oogle</button></a>
+      <a href="/auth/auth/google"><button type="button" class="btn btn-success" id="google_btn">Login with <i class="fa fa-google" aria-hidden="true"></i>oogle</button></a>
     </div>
   </div>
 </div>
@@ -47,6 +47,9 @@ export default {
 #app {
   text-align: center;
   height: 100%;
+}
+#google_btn {
+  font-size: 17px;
 }
 .err_msg {
   color: red;
