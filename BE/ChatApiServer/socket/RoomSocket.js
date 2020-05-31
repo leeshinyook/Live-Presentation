@@ -48,7 +48,6 @@ module.exports = function(server, pub, sub, store) {
 			socket.join(data);
 		});
 		socket.on('chat', (data) => {
-			console.log(data);
 			let reply = JSON.stringify({
 				event: 'chat',
 				message: data.message,
@@ -81,10 +80,10 @@ module.exports = function(server, pub, sub, store) {
 				pollTitle: data.pollTitle,
 				sendType: 'sendToAllClientsInRoom'
 			});
+			console.log(data);
 			pub.publish('sub', reply);
 		});
 		socket.on('updatePoll', (data) => {
-			console.log(data);
 			let reply = JSON.stringify({
 				event: 'updatePoll',
 				roomId: data.roomId,
@@ -95,7 +94,6 @@ module.exports = function(server, pub, sub, store) {
 			pub.publish('sub', reply);
 		});
 		socket.on('likeUp', (data) => {
-			console.log(data);
 			let reply = JSON.stringify({
 				event: 'likeUp',
 				roomId: data.roomId,
@@ -107,6 +105,7 @@ module.exports = function(server, pub, sub, store) {
 		});
 		socket.on('disconnect', () => {
 			console.log('disconnected');
+			socket.disconnect();
 		});
 	});
 	return io;
