@@ -92,8 +92,10 @@ export default {
       this.pollFlag = true;
     });
     this.$socket.on("updatePoll", data => {
-      this.polls = [];
-      this.polls.push(data.contents[0]);
+      if(this.polls[0]) {
+        this.polls = [];
+        this.polls.push(data.contents[0]);
+      }
     })
     this.$socket.on("likeUp", data => {
       let load = {
@@ -156,9 +158,11 @@ export default {
         contents: this.polls,
         pollTitle: this.title
       };
+      this.checkedPoll = [];
+      this.polls = [];
       this.$socket.emit("updatePoll", load);
       this.pollFlag = false;
-      this.polls = [];
+
     },
     Like(idx){
       let load = {

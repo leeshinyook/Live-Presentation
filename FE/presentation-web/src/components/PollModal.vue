@@ -54,7 +54,9 @@
 <script>
 import { EventBus } from "../../modules/eventBus";
 export default {
-  created() {},
+  created() {
+    this.contents = [];
+  },
   methods: {
     StartPoll() {
       let load = {
@@ -62,6 +64,7 @@ export default {
         contents: this.contents,
         pollTitle: this.title
       };
+      this.contents = [];
       this.$socket.emit("sendPoll", load);
       this.$emit("close");
     },

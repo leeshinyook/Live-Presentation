@@ -38,8 +38,6 @@ export default {
           this.errMsg = "존재하지 않는 이벤트코드 입니다!"
         }
       })
-
-
     }
   }
 }

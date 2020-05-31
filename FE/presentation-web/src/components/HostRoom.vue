@@ -151,8 +151,9 @@ export default {
       this.message = "";
     },
     StartPoll() {
-      this.polls = [];
+      this.pollResultFlag = false;
       this.$store.commit("setRoomNumber", this.user.uniqueNumber);
+      this.polls = [];
       this.showPollModal = true;
     },
     ShowResultPoll() {
