@@ -8,7 +8,8 @@ module.exports = function(server, pub, sub, store) {
 					message: data.message,
 					roomId: data.roomId,
 					likeCnt: data.likeCnt,
-					nickName: data.nickName
+					nickName: data.nickName,
+					id: data.id
 				};
 				io.sockets.to(data.roomId).emit(data.event, reply);
 			}
@@ -32,7 +33,7 @@ module.exports = function(server, pub, sub, store) {
 				let reply = {
 					roomId: data.roomId,
 					msgCnt: data.msgCnt * 1 + 1,
-					msgIdx: data.msgIdx
+					id: data.id
 				};
 				io.sockets.to(data.roomId).emit(data.event, reply);
 			}
@@ -53,6 +54,7 @@ module.exports = function(server, pub, sub, store) {
 				message: data.message,
 				roomId: data.roomId,
 				nickName: data.nickName,
+				id: data.id,
 				likeCnt: data.likeCnt,
 				sendType: 'sendToAllClientsInRoom'
 			});
@@ -97,7 +99,7 @@ module.exports = function(server, pub, sub, store) {
 			let reply = JSON.stringify({
 				event: 'likeUp',
 				roomId: data.roomId,
-				msgIdx: data.msgIdx,
+				id: data.id,
 				msgCnt: data.msgCnt,
 				sendType: 'sendToAllClientsInRoom'
 			});
