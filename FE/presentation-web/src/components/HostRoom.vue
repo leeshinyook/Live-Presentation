@@ -28,6 +28,18 @@
     <div class="body">
       <div class="col1">
         <div class="title">실시간 인기글</div>
+        <ul class="board">
+          <li v-for="(log, idx) in sortedList" :key="idx">
+            <div class="board_table">
+              <div class="author">
+                <i class="fa fa-user-circle-o" aria-hidden="true"></i>
+                {{ log.nickName }}
+              </div>
+              <div class="message">{{ log.message }}</div>
+              <div><i class="fa fa-heart" aria-hidden="true"></i> {{log.likeCnt}}</div>
+            </div>
+          </li>
+        </ul>
       </div>
       <div class="col2">
         <div class="title">실시간 최신글</div>
@@ -96,8 +108,17 @@ export default {
       cryptoFlag: false,
       showPollModal: false,
       pollResultFlag: false,
-      polls:[]
+      polls:[],
     };
+  },
+  computed: {
+    sortedList() {
+      let ObjectedLogs = JSON.parse(JSON.stringify(this.recentLogs));
+      ObjectedLogs.sort((a, b) => {
+        return b.likeCnt - a.likeCnt
+      });
+      return ObjectedLogs.slice(0, 3);
+    }
   },
   methods: {
     CreateUniqNum() {
