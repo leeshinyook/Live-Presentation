@@ -27,7 +27,6 @@
         <li v-for="(log, idx) in logs" :key="idx">
           <div class="board_table">
             <div class="author">
-              {{idx}} 번
               <i class="fa fa-user-circle-o" aria-hidden="true"></i>
               {{log.nickName}}
             </div>

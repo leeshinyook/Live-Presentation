@@ -1,7 +1,7 @@
 <template>
 <div id="app">
   <div class="title">
-    <h1>서비스이름</h1>
+    <h1>RealTime Q&A</h1>
   </div>
   <div class="body">
     <!-- Standard button -->
