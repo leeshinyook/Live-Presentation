@@ -244,7 +244,8 @@ ul {
   border-radius: 5px;
   margin-right: 5%;
   margin-left: 1%;
-  height: auto;
+  overflow: scroll;
+  height: 700px;
 }
 .board {
   padding: 0%;
