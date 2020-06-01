@@ -2,7 +2,7 @@
   <div>
     <div v-if="!registerFlag">
       <div>
-        <h3>{{hostName}}님의 이벤트</h3>
+        <vue-position-sticky :offsetTop="0"><h3>{{hostName}}님의 이벤트</h3></vue-position-sticky>
         <span v-if="pollFlag">
           <div class="poll_alarm"><i class="fa fa-bell" aria-hidden="true"></i> 실시간 투표가 등록되었습니다.</div>
           <div class="poll_table">
@@ -38,9 +38,11 @@
         </li>
       </ul>
 
-      <div class="position-sticky">
-        <button class="btn btn-primary" id="register_button" @click="Regist()">질문등록하기</button>
-      </div>
+      <vue-position-sticky :offsetBottom="10">
+        <div class="register_btn">
+        <button class="btn btn-primary" id="register_button" @click="Regist()"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
+        </div>
+      </vue-position-sticky>
     </div>
     <div v-else id="register_view">
       <div class="header">
@@ -208,8 +210,13 @@ export default {
 
 <style>
 #register_button {
-  font-size: 20px;
-  letter-spacing: 2px;
+  font-size: 24px;
+  padding: 8px 10px 8px 14px;
+  border-radius: 100%;
+  /* letter-spacing: 2px; */
+}
+.register_btn {
+  margin-left: 290px;
 }
 #submit_button {
   font-size: 17px;
