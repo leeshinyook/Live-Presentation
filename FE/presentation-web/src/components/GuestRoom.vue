@@ -2,9 +2,13 @@
   <div>
     <div v-if="!registerFlag">
       <div>
-        <vue-position-sticky :offsetTop="0"><h3>{{hostName}}님의 이벤트</h3></vue-position-sticky>
+        <vue-position-sticky :offsetTop="0">
+          <h3>{{hostName}}님의 이벤트</h3>
+        </vue-position-sticky>
         <span v-if="pollFlag">
-          <div class="poll_alarm"><i class="fa fa-bell" aria-hidden="true"></i> 실시간 투표가 등록되었습니다.</div>
+          <div class="poll_alarm">
+            <i class="fa fa-bell" aria-hidden="true"></i> 실시간 투표가 등록되었습니다.
+          </div>
           <div class="poll_table">
             <div class="poll_title">{{polls[0].pollTitle}}</div>
             <ul>
@@ -30,8 +34,9 @@
               {{log.nickName}}
             </div>
             <div class="message">{{log.message}}</div>
-            <div><i class="fa fa-heart" aria-hidden="true" @click="Like(idx)" v-if="!likeFlag[idx]"></i>
-            <i class="fa fa-heart" aria-hidden="true" @click="Like(idx)" id="heart_color" v-else></i>
+            <div>
+              <i class="fa fa-heart" aria-hidden="true" @click="Like(idx)" v-if="!likeFlag[idx]"></i>
+              <i class="fa fa-heart" aria-hidden="true" @click="Like(idx)" id="heart_color" v-else></i>
               {{log.likeCnt}}
             </div>
           </div>
@@ -40,7 +45,9 @@
 
       <vue-position-sticky :offsetBottom="10">
         <div class="register_btn">
-        <button class="btn btn-primary" id="register_button" @click="Regist()"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
+          <button class="btn btn-primary" id="register_button" @click="Regist()">
+            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+          </button>
         </div>
       </vue-position-sticky>
     </div>
@@ -77,7 +84,7 @@
 </template>
 
 <script>
-const uuid = require('uuid');
+const uuid = require("uuid");
 export default {
   created() {
     this.roomNumber = this.$route.params.code;
@@ -96,33 +103,33 @@ export default {
       this.pollFlag = true;
     });
     this.$socket.on("updatePoll", data => {
-      if(this.polls[0]) {
+      if (this.polls[0]) {
         this.polls = [];
         this.polls.push(data.contents[0]);
       }
-    })
+    });
     this.$socket.on("likeUp", data => {
       let load = {
         id: data.id,
         msgCnt: data.msgCnt
-      }
+      };
       this.logs.forEach(ele => {
-        if(ele.id === load.id) {
+        if (ele.id === load.id) {
           ele.likeCnt = load.msgCnt;
         }
-      })
-    })
+      });
+    });
     this.$socket.on("likeDown", data => {
       let load = {
         id: data.id,
         msgCnt: data.msgCnt
-      }
+      };
       this.logs.forEach(ele => {
-        if(ele.id === load.id) {
+        if (ele.id === load.id) {
           ele.likeCnt = load.msgCnt;
         }
-      })
-    })
+      });
+    });
   },
   data() {
     return {
@@ -133,7 +140,7 @@ export default {
       pollFlag: false,
       register: {
         nickname: "",
-        message: "",
+        message: ""
       },
       logs: [],
       polls: [],
@@ -144,7 +151,7 @@ export default {
   },
   computed: {
     myColor(idx) {
-      return this.likeFlag[idx] ? 'red' : 'black';
+      return this.likeFlag[idx] ? "red" : "black";
     }
   },
   methods: {
@@ -183,23 +190,24 @@ export default {
       this.polls = [];
       this.$socket.emit("updatePoll", load);
       this.pollFlag = false;
-
     },
-    Like(idx){
-      if(!this.likeFlag[idx]) { // like
-        let load = {
-        roomId: this.roomNumber,
-        id: this.logs[idx].id,
-        msgCnt: this.logs[idx].likeCnt
-        }
-        this.likeFlag[idx] = true;
-        this.$socket.emit('likeUp', load);
-      } else { // unlike
+    Like(idx) {
+      if (!this.likeFlag[idx]) {
+        // like
         let load = {
           roomId: this.roomNumber,
           id: this.logs[idx].id,
           msgCnt: this.logs[idx].likeCnt
-        }
+        };
+        this.likeFlag[idx] = true;
+        this.$socket.emit("likeUp", load);
+      } else {
+        // unlike
+        let load = {
+          roomId: this.roomNumber,
+          id: this.logs[idx].id,
+          msgCnt: this.logs[idx].likeCnt
+        };
         this.likeFlag[idx] = false;
         this.$socket.emit("likeDown", load);
       }
@@ -213,6 +221,7 @@ export default {
   font-size: 24px;
   padding: 8px 10px 8px 14px;
   border-radius: 100%;
+  box-shadow: 1px 1px 1px 1px rgb(150, 150, 150);
   /* letter-spacing: 2px; */
 }
 .register_btn {
