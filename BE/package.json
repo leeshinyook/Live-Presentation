@@ -4,7 +4,7 @@
   "description": "Application for live chat",
   "main": "app.js",
   "scripts": {
-    "test": "mocha",
+    "test": "mocha 'ChatApiServer/test/*.js'",
     "start": "concurrently \"npm run start:auth\" \"npm run start:socket\" ",
     "start:auth": "nodemon ./AuthApiServer/app.js",
     "start:socket": "nodemon ./ChatApiServer/app.js"
@@ -28,6 +28,7 @@
     "passport-google-oauth20": "^2.0.0",
     "path": "^0.12.7",
     "redis": "^3.0.2",
+    "should": "^13.2.3",
     "socket.io": "^2.3.0",
     "socket.io-client": "^2.3.0",
     "socket.io-mock": "^1.2.4",
