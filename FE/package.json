@@ -1,9 +1,7 @@
 {
-  "name": "presentation-web",
-  "version": "1.0.0",
-  "description": "Application for live chat",
-  "author": "leeshinyook <tlsdbr97@gmail.com>",
+  "name": "FE",
   "private": true,
+  "version": "1.0.0",
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "start": "npm run dev",
@@ -13,7 +11,9 @@
     "axios": "^0.19.2",
     "crypto-js": "^4.0.0",
     "socket.io-client": "^2.3.0",
+    "uuid": "^8.1.0",
     "vue": "^2.5.2",
+    "vue-position-sticky": "^0.2.1",
     "vue-router": "^3.0.1",
     "vue-socket.io": "^3.0.7"
   },

@@ -1,2 +1,7 @@
 node_modules
 config.json
+.nyc_output
+coverage
+package-lock.json
+yarn.lock
+.coveralls.yml
