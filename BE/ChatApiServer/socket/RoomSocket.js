@@ -88,7 +88,6 @@ module.exports = function(server, pub, sub, store) {
 				pollTitle: data.pollTitle,
 				sendType: 'sendToAllClientsInRoom'
 			});
-			console.log(data);
 			pub.publish('sub', reply);
 		});
 		socket.on('updatePoll', (data) => {
