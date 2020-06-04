@@ -4,7 +4,7 @@
   "description": "Application for live chat",
   "main": "app.js",
   "scripts": {
-    "test": "mocha 'ChatApiServer/test/*.js'",
+    "test": "mocha 'ChatApiServer/test/*.js' --exit",
     "start": "concurrently \"npm run start:auth\" \"npm run start:socket\" ",
     "start:auth": "nodemon ./AuthApiServer/app.js",
     "start:socket": "nodemon ./ChatApiServer/app.js"
