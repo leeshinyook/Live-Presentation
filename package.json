@@ -1,0 +1,20 @@
+{
+  "name": "RealTimeQnA",
+  "private": true,
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/leeshinyook/RealTime_QnA.git",
+  "author": "leeshinyook <tlsdbr97@gmail.com>",
+  "license": "MIT",
+  "workspaces": [
+    "FE",
+    "BE"
+  ],
+  "scripts": {
+    "test": "yarn run test:server",
+    "test:server": "yarn workspace BE test"
+  },
+  "dependencies": {
+    "npm-run-all": "^4.1.5"
+  }
+}

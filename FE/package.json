@@ -1,9 +1,7 @@
 {
-  "name": "presentation-web",
-  "version": "1.0.0",
-  "description": "Application for live chat",
-  "author": "leeshinyook <tlsdbr97@gmail.com>",
+  "name": "FE",
   "private": true,
+  "version": "1.0.0",
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "start": "npm run dev",
