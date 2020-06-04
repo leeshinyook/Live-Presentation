@@ -6,6 +6,7 @@
   "scripts": {
     "test": "nyc mocha 'ChatApiServer/test/*.js' --exit",
     "coverage": "nyc --reporter html npm test",
+    "coveralls": "nyc report --reporter=text-lcov | coveralls",
     "start": "concurrently \"npm run start:auth\" \"npm run start:socket\" ",
     "start:auth": "nodemon ./AuthApiServer/app.js",
     "start:socket": "nodemon ./ChatApiServer/app.js"

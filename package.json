@@ -12,7 +12,8 @@
   ],
   "scripts": {
     "test": "yarn run test:server",
-    "test:server": "yarn workspace BE test"
+    "test:server": "yarn workspace BE test",
+    "coveralls": "yarn workspace BE coveralls"
   },
   "dependencies": {
     "npm-run-all": "^4.1.5"

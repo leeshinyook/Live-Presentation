@@ -6,3 +6,5 @@ install:
 service:
   - redis-server
 
+after_success:
+  - yarn coveralls
