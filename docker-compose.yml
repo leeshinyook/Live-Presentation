@@ -1,0 +1,32 @@
+version: "3.7"
+services:
+  front:
+    container_name: front
+    build: ./FE
+    ports:
+      - '8080:8080'
+    networks:
+      - app
+  back:
+    container_name: back
+    build: ./BE
+    ports:
+      - '3000:3000'
+    networks:
+      - app
+  redis:
+    image: redis:5.0.7-alpine
+    container_name: redis
+    volumes:
+      - redisdata:/data
+    ports:
+      - '6379:6379'
+    networks:
+      - app
+networks:
+  app:
+    name: app_bridge
+volumes: 
+  redisdata:
+    driver: local
+  
