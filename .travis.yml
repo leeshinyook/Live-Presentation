@@ -8,3 +8,7 @@ service:
 
 after_success:
   - yarn coveralls
+
+branches:
+  only:
+    - master
