@@ -13,7 +13,7 @@ RUN cd /tmp; yarn install
 
 COPY . /tmp
 
-EXPOSE 3000 
+EXPOSE 3001 3000
 
 WORKDIR /tmp
 
