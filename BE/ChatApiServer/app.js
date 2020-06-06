@@ -10,9 +10,15 @@ const app = require('express')();
 const server = require('http').createServer(app);
 const redis = require('redis');
 
-const store = redis.createClient(6379, 'localhost');
-const pub = redis.createClient(6379, 'localhost');
-const sub = redis.createClient(6379, 'localhost');
+const store = redis.createClient(6379, {
+	host: 'redis'
+});
+const pub = redis.createClient(6379, {
+	host: 'redis'
+});
+const sub = redis.createClient(6379, {
+	host: 'redis'
+});
 const io = require('./socket/RoomSocket')(server, pub, sub, store, {
 	pingTimeout: 60000
 });
