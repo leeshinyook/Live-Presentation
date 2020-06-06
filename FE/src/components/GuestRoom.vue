@@ -216,7 +216,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 #register_button {
   font-size: 24px;
   padding: 8px 10px 8px 14px;
