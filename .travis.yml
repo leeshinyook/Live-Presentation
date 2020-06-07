@@ -13,8 +13,8 @@ env:
 
 after_success:
   - docker login -u $DOCKER_USER -p $DOCKER_PASS
-  - docker build -t $DOCKER_USER/$REPO:${TRAVIS_COMMIT::7} .
-  - docker push updown2011/realtimeqna:${TRAVIS_COMMIT::7}
+  - docker-compose build .
+  - docker-compose push updown2011/realtimeqna:${TRAVIS_COMMIT::7}
   - yarn coveralls
 
 
