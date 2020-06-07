@@ -1,6 +1,11 @@
 const ioClient = require('socket.io-client');
 const io = require('socket.io');
-const socketURL = 'http://localhost:3001';
+if (process.env.NODE_ENV === 'test') {
+	var socketURL = 'http://localhost:3001';
+} else if (process.env.NODE_ENV === 'production') {
+	var socketURL = 'http://13.125.89.99:3001';
+}
+
 const app = require('../app');
 const express = require('express');
 const http = require('http');
