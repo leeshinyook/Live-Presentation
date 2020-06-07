@@ -1,11 +1,11 @@
 FROM node:12.13.0-alpine
-MAINTAINER leeshinyook <tlsdbr97@gmail.com>
 
 # installation nodemon
 # RUN npm install yarn
 RUN yarn global add nodemon
 
-COPY package.json /tmp/package.json; config.json /tmp/
+COPY package.json /tmp/package.json
+COPY config.json /tmp/config.json
 
 RUN cd /tmp; yarn install
 
