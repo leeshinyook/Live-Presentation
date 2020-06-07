@@ -14,7 +14,7 @@ env:
 
 after_success:
   - yarn coveralls
-  - docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+  - docker login -u $DOCKER_USER -p $DOCKER_PASS
   - docker build -t $USER/$REPO:${TRAVIS_COMMIT::7} .
   - docker push $USER/$REPO:${TRAVIS_COMMIT::7}
 
