@@ -2,6 +2,7 @@ version: "3.7"
 services:
   front:
     container_name: front
+    image: updown2011/realtime_front
     build: ./FE
     ports:
       - '8080:80'
@@ -21,6 +22,7 @@ services:
   back:
     container_name: back
     build: ./BE
+    image: updown2011/realtime_back
     ports:
       - '3001:3001'
       - '3000:3000'
