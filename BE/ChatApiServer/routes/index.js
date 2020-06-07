@@ -1,8 +1,14 @@
 const express = require('express');
 const redis = require('redis');
-const store = redis.createClient(6379, {
-	host: 'redis'
-});
+if (process.env.NODE_ENV === 'production') {
+	var store = redis.createClient(6379, {
+		host: 'redis'
+	});
+} else if (process.env.NODE_ENV === 'test') {
+	var store = redis.createClient(6379, {
+		host: 'localhost'
+	});
+}
 const router = express.Router();
 let app = require('../app');
 router.post('/api/room', (req, res, next) => {

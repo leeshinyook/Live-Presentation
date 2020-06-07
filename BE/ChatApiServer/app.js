@@ -9,16 +9,28 @@ const indexRouter = require('./routes/index');
 const app = require('express')();
 const server = require('http').createServer(app);
 const redis = require('redis');
+if (process.env.NODE_ENV === 'production') {
+	var store = redis.createClient(6379, {
+		host: 'redis'
+	});
+	var pub = redis.createClient(6379, {
+		host: 'redis'
+	});
+	var sub = redis.createClient(6379, {
+		host: 'redis'
+	});
+} else if (process.env.NODE_ENV === 'test') {
+	var store = redis.createClient(6379, {
+		host: 'localhost'
+	});
+	var pub = redis.createClient(6379, {
+		host: 'localhost'
+	});
+	var sub = redis.createClient(6379, {
+		host: 'localhost'
+	});
+}
 
-const store = redis.createClient(6379, {
-	host: 'redis'
-});
-const pub = redis.createClient(6379, {
-	host: 'redis'
-});
-const sub = redis.createClient(6379, {
-	host: 'redis'
-});
 const io = require('./socket/RoomSocket')(server, pub, sub, store, {
 	pingTimeout: 60000
 });

@@ -9,7 +9,7 @@ chai.use(chaiHttp);
 describe('router testing', () => {
 	it('it should POST room', (done) => {
 		let params = { code: 'test' };
-		chai.request(app).post('/room').end((err, res) => {
+		chai.request(app).post('/api/room').end((err, res) => {
 			let status = res.statusCode;
 			let body = res.body;
 			let expected = {
