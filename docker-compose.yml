@@ -21,8 +21,8 @@ services:
       - app
   back:
     container_name: back
-    build: ./BE
     image: updown2011/realtime_back:latest
+    build: ./BE
     ports:
       - '3001:3001'
       - '3000:3000'
