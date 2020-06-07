@@ -5,7 +5,7 @@ FROM node:12.13.0-alpine
 RUN yarn global add nodemon
 
 COPY package.json /tmp/package.json
-COPY config.json /tmp/config.json
+ADD config.json /tmp
 
 RUN cd /tmp; yarn install
 
