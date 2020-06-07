@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="host">
     <div id="header">
       <div class="profile">
         <img v-bind:src="this.user.picture" alt="Google Image" height="50px" width="50px" />
@@ -180,9 +180,11 @@ export default {
 };
 </script>
 
-<style>
-#app {
+<style scope>
+#host {
   padding-top: 60px;
+}
+#app {
   text-align: center;
 }
 #name {

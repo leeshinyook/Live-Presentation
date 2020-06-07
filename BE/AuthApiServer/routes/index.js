@@ -7,7 +7,7 @@ const auth = require('../auth');
 // });
 
 router.get('/login', (req, res, next) => {
-	res.render('login', { title: 'Login' });
+	res.json({ title: 'Login' });
 });
 
 // router.get('/account', auth.ensureAuthenticated, (req, res, next) => {

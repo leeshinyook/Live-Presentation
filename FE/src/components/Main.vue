@@ -3,18 +3,18 @@
   <div class="title">
     <h1>RealTime Q&A</h1>
   </div>
-  <div class="body">
+  <div class="content">
     <div class="input_box">
       <div class="explain_text">익명으로 질문해주세요!</div>
         <input type="text" v-model="evtCode" class="form-control" placeholder="이벤트 코드입력하기">
         <button type="button" class="btn btn-primary btn-lg btn-block" @click="joinRoom">입장하기</button>
         <div class="err_msg">{{errMsg}}</div>
     </div>
-    <div class="footer">
+  </div>
+  <div class="footer">
       <div class="explain_text">이벤트를 만들고 싶다면, 로그인을 해주세요!</div>
       <a href="/auth/auth/google"><button type="button" class="btn btn-success" id="google_btn">Login with <i class="fa fa-google" aria-hidden="true"></i>oogle</button></a>
     </div>
-  </div>
 </div>
 </template>
 
@@ -43,7 +43,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 #app {
   text-align: center;
   height: 100%;
@@ -62,15 +62,16 @@ export default {
   padding-top: 190px;
   font-size: 40px;
 }
-.body {
+.content {
   padding-top: 40px;
   margin-left: 10%;
+  display: block;
   margin-right: 10%;
 }
-.body input {
+.content input {
   height: 50px;
 }
-.body button {
+.content button {
   margin-top: 5px;
 }
 .footer {

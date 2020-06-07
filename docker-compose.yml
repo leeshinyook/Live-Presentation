@@ -1,0 +1,37 @@
+version: "3.7"
+services:
+  front:
+    container_name: front
+    build: ./FE
+    ports:
+      - '8080:80'
+    networks:
+      - app
+  redis:
+    image: redis:latest
+    hostname: redis
+    ports:
+      - '6379:6379'
+    command: ["redis-server", "--appendonly", "yes"]
+    container_name: redis
+    volumes:
+      - redisdata:/data
+    networks:
+      - app
+  back:
+    container_name: back
+    build: ./BE
+    ports:
+      - '3001:3001'
+      - '3000:3000'
+    networks:
+      - app
+  
+networks:
+  app:
+    name: app_bridge
+volumes: 
+  redisdata:
+    driver: local
+  
+  
