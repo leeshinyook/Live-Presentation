@@ -6,7 +6,7 @@ MAINTAINER leeshinyook <tlsdbr97@gmail.com>
 RUN yarn global add nodemon
 
 COPY package.json /tmp/package.json
-
+COPY config.json /tmp
 RUN cd /tmp; yarn install
 
 # RUN mkdir -p /usr/src/app && cp -a /tmp/node_modules /usr/src/app
