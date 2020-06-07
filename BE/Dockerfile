@@ -8,7 +8,6 @@ COPY package.json /tmp/package.json
 
 
 RUN cd /tmp; yarn install
-COPY config.json .
 # RUN mkdir -p /usr/src/app && cp -a /tmp/node_modules /usr/src/app
 
 COPY . /tmp
