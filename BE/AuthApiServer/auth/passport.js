@@ -21,7 +21,7 @@ passport.use(
 		{
 			clientID: GOOGLE_CLIENT_ID,
 			clientSecret: GOOGLE_CLIENT_SECRET,
-			callbackURL: 'http://localhost:3000/auth/google/callback'
+			callbackURL: 'http://15.165.15.61:3000/auth/google/callback'
 		},
 		(accessToken, refreshToken, profile, done) => {
 			process.nextTick(function() {
@@ -69,12 +69,12 @@ const setup = function(app) {
 		}
 	);
 
-	app.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/fal' }), function(req, res) {
+	app.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/fail' }), function(req, res) {
 		// req.session.token = req.user.token;
 		// res.cookie('token', req.session.token);
 		req.session.save(() => {
 			// res.redirect('/');
-			res.redirect('http://localhost:8080/chattingroom');
+			res.redirect('http://15.165.15.61:8080/chattingroom');
 		});
 	});
 
@@ -89,7 +89,7 @@ const setup = function(app) {
 		// if (req.session.token) {
 		// res.cookie('token', req.session.token);
 		// console.log(req.user);
-		res.redirect('http://localhost:8080/chattingroom');
+		res.redirect('http://15.165.15.61:8080/chattingroom');
 		// res.json({
 		// status: 'session cookie set'
 		// });
