@@ -24,11 +24,6 @@
 
 - 이신육
 
-## 기술스택
-
-- Front-end : Vue, Vuex, Bootstrap
-- Back-end: Node, Socket.io, Oauth
-
 ## Test
 
 - Back-End : Mocha.js + chai
