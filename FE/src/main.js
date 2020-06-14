@@ -7,7 +7,7 @@ import axios from 'axios';
 import io from 'socket.io-client';
 import store from './store';
 import vuePositionSticky from 'vue-position-sticky';
-const socket = io('http://localhost:3001');
+const socket = io('http://15.165.15.61:3001');
 
 Vue.prototype.$socket = socket;
 Vue.prototype.$axios = axios;
