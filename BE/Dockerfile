@@ -1,14 +1,13 @@
 FROM node:12.13.0-alpine
-MAINTAINER leeshinyook <tlsdbr97@gmail.com>
 
 # installation nodemon
 # RUN npm install yarn
 RUN yarn global add nodemon
 
 COPY package.json /tmp/package.json
+COPY config.json /tmp
 
 RUN cd /tmp; yarn install
-
 # RUN mkdir -p /usr/src/app && cp -a /tmp/node_modules /usr/src/app
 
 COPY . /tmp
