@@ -3,7 +3,7 @@ const io = require('socket.io');
 if (process.env.NODE_ENV === 'test') {
 	var socketURL = 'http://localhost:3001';
 } else if (process.env.NODE_ENV === 'production') {
-	var socketURL = 'http://13.125.89.99:3001';
+	var socketURL = 'http://15.165.15.61:3001';
 }
 
 const app = require('../app');

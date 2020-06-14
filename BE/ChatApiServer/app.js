@@ -10,15 +10,18 @@ const app = require('express')();
 const server = require('http').createServer(app);
 const redis = require('redis');
 if (process.env.NODE_ENV === 'production') {
-	var store = redis.createClient(6379, {
-		host: 'redis'
-	});
-	var pub = redis.createClient(6379, {
-		host: 'redis'
-	});
-	var sub = redis.createClient(6379, {
-		host: 'redis'
-	});
+	// var store = redis.createClient(6379, {
+	// 	host: 'redis'
+	// });
+	// var pub = redis.createClient(6379, {
+	// 	host: 'redis'
+	// });
+	// var sub = redis.createClient(6379, {
+	// 	host: 'redis'
+	// });
+	var store = redis.createClient(6379, '15.165.15.61');
+	var pub = redis.createClient(6379, '15.165.15.61');
+	var sub = redis.createClient(6379, '15.165.15.61');
 } else if (process.env.NODE_ENV === 'test') {
 	var store = redis.createClient(6379, {
 		host: 'localhost'
@@ -30,10 +33,10 @@ if (process.env.NODE_ENV === 'production') {
 		host: 'localhost'
 	});
 }
-
 const io = require('./socket/RoomSocket')(server, pub, sub, store, {
 	pingTimeout: 60000
 });
+io.origins('*:*');
 
 app.use(cors());
 app.set('view engine', 'ejs');
@@ -65,7 +68,7 @@ sub.on('subscribe', function(channel, count) {
 });
 
 const PORT = 3001;
-server.listen(PORT, () => {
+server.listen(PORT || process.env.PORT, () => {
 	console.log(`[ChatApiServer] Listening on Port ${PORT}`);
 });
 
