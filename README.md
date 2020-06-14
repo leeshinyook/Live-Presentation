@@ -53,5 +53,5 @@
 
 ## Structures
 
-![스크린샷 2020-06-15 오전 12.19.39](/Users/leeshinyook/Desktop/스크린샷 2020-06-15 오전 12.19.39.png)
+![스크린샷 2020-06-15 오전 12 19 39](https://user-images.githubusercontent.com/55838461/84597693-b0a7aa80-aea0-11ea-8807-fdef75ddc3a7.png)
 
