@@ -1,21 +1,24 @@
-# language: node_js
-# node_js:
-#   - "stable"
-# install:
-#   - yarn
-# service:
-#   - redis-server
-# env:
-#   global:
-#   - DOCKER_USER=updown2011
-#   - secure: wSweluBp9WiYL6nFSFcEqhOboOx197XYqSJSnIHJfgGSWFFo7w9GXA8sZo2BpfvwNvYhFqzEY0VrB4qChqu8Cw7yDZK6uAfL/myT5Y9EFy5k0x3dJAahOW7OllOYfb/QfCCbbJkJgy6RcPD2cQXAoeJPglQ3IM07GggO0aU82NdylZJQbffovf7jet43miGdGueM5ppwDhX+F6M3YUXgBtOhF2SmJYMGj9SUX1yRecPnyiQajq6e4Chp4uzofKpAOqnNH9a308jeGvoM5BqaepMVvJuO3/kR2vBqaXZBtHSmggCLAvFg33qqxuubjHKGCiNetJw4OM9cVw2sPJlo4xF2MrrPCP30+yjXB2+cGcaiWh7He0WHPyghireGRQ07l2zVgIcgHjZOgdN37fvW6KoyV37jkJGd09lZOOnYoaG4jfckzyqxg3hWZmCKjea1LnuNjHTBaqGJPl9RvXccJDacckPbBBY8woLKSJY3b3H6F1vZxl+ZXD5ypb2BZ33Wp+qQMuv4l2NQ8NAIKOVtJ8iEx3MJzh9dpYKLN+C2rQeHftSC5KQT6hsnpJUnn8cXW3s9B7owRHf23RRe33QKr48ZZJkK4d6Bmvt4JAAHkrzMFFIfvPtIiye38U0kCPo0fP6wol5lLHDZXAoDPoi4atsGmclnCs+HSlEo7QjsuG4=
+language: node_js
+node_js:
+  - "stable"
+before_install:
+- openssl aes-256-cbc -K $encrypted_adb12867754a_key -iv $encrypted_adb12867754a_iv
+  -in config.json.enc -out BE/config.json -d
+install:
+  - yarn
+service:
+  - redis-server
+env:
+  global:
+  - DOCKER_USER=updown2011
+  - secure: wSweluBp9WiYL6nFSFcEqhOboOx197XYqSJSnIHJfgGSWFFo7w9GXA8sZo2BpfvwNvYhFqzEY0VrB4qChqu8Cw7yDZK6uAfL/myT5Y9EFy5k0x3dJAahOW7OllOYfb/QfCCbbJkJgy6RcPD2cQXAoeJPglQ3IM07GggO0aU82NdylZJQbffovf7jet43miGdGueM5ppwDhX+F6M3YUXgBtOhF2SmJYMGj9SUX1yRecPnyiQajq6e4Chp4uzofKpAOqnNH9a308jeGvoM5BqaepMVvJuO3/kR2vBqaXZBtHSmggCLAvFg33qqxuubjHKGCiNetJw4OM9cVw2sPJlo4xF2MrrPCP30+yjXB2+cGcaiWh7He0WHPyghireGRQ07l2zVgIcgHjZOgdN37fvW6KoyV37jkJGd09lZOOnYoaG4jfckzyqxg3hWZmCKjea1LnuNjHTBaqGJPl9RvXccJDacckPbBBY8woLKSJY3b3H6F1vZxl+ZXD5ypb2BZ33Wp+qQMuv4l2NQ8NAIKOVtJ8iEx3MJzh9dpYKLN+C2rQeHftSC5KQT6hsnpJUnn8cXW3s9B7owRHf23RRe33QKr48ZZJkK4d6Bmvt4JAAHkrzMFFIfvPtIiye38U0kCPo0fP6wol5lLHDZXAoDPoi4atsGmclnCs+HSlEo7QjsuG4=
 
-# after_success:
-#   - docker login -u $DOCKER_USER -p $DOCKER_PASS
-#   - docker-compose build
-#   - docker-compose push
-#   - yarn coveralls
+after_success:
+  - docker login -u $DOCKER_USER -p $DOCKER_PASS
+  - docker-compose build
+  - docker-compose push
+  - yarn coveralls
 
-# # branches:
-# #   only:
-# #     - master
+branches:
+  only:
+    - master
