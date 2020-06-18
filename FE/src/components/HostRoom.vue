@@ -76,6 +76,14 @@ export default {
       this.user.name = res.data.name;
       this.user.picture = res.data.picture;
       this.user.email = res.data.email;
+    }).catch(err => {
+      if (err.response) {
+          // client received an error response (5xx, 4xx)
+        } else if (err.request) {
+          // client never received a response, or request never left
+        } else {
+          // anything else
+        }
     });
     this.$socket.on("chat", data => {
       this.recentLogs.push(data);

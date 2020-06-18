@@ -37,6 +37,14 @@ export default {
         } else {
           this.errMsg = "존재하지 않는 이벤트코드 입니다!"
         }
+      }).catch(err =>{
+        if (err.response) {
+          // client received an error response (5xx, 4xx)
+        } else if (err.request) {
+          // client never received a response, or request never left
+        } else {
+          // anything else
+        }
       })
     }
   }
