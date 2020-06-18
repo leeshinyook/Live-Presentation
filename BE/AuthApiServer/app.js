@@ -9,7 +9,6 @@ const connectHistoryApiFallbsck = require('connect-history-api-fallback');
 
 const indexRouter = require('./routes/index');
 const app = express();
-// app.use(connectHistoryApiFallbsck());
 
 // Setting Cors
 app.use(cors());
@@ -44,9 +43,6 @@ if (app.get('env') === 'development') {
 		});
 	});
 }
-
-// require('./routes')(app);
-
 const PORT = 3000;
 app.listen(PORT || process.env.PORT, () => {
 	console.log(`[AuthApiServer] Listening on Port ${PORT}`);

@@ -28,21 +28,6 @@ passport.use(
 				user = profile;
 				return done(null, profile);
 			});
-			// return done(null, {
-			// user: profile,
-			// token: accessToken
-			// });
-			/* 
-				req.session.passport 정보 저장.
-				done메소드에 전달된 정보가 세션에 저장된다.
-				profile을 이요해서 사용자 정보를 DB.
-			*/
-			// process.nextTick(function() {
-			// 	user = profile;
-			// 	token = accessToken;
-			// 	return done(null, user);
-			// });
-			// });
 		}
 	)
 );
@@ -70,10 +55,7 @@ const setup = function(app) {
 	);
 
 	app.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/fail' }), function(req, res) {
-		// req.session.token = req.user.token;
-		// res.cookie('token', req.session.token);
 		req.session.save(() => {
-			// res.redirect('/');
 			res.redirect('http://ec2-15-165-15-61.ap-northeast-2.compute.amazonaws.com:8080/chattingroom');
 		});
 	});
@@ -86,18 +68,7 @@ const setup = function(app) {
 		res.json('fail');
 	});
 	app.get('/', (req, res) => {
-		// if (req.session.token) {
-		// res.cookie('token', req.session.token);
-		// console.log(req.user);
 		res.redirect('http://ec2-15-165-15-61.ap-northeast-2.compute.amazonaws.com:8080/chattingroom');
-		// res.json({
-		// status: 'session cookie set'
-		// });
-		// } else {
-		// res.cookie('token', '');
-		// res.json({
-		// status: 'session cookie not set'
-		// });
 	});
 
 	app.get('/auth/account', auth.ensureAuthenticated, (req, res) => {
