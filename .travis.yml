@@ -18,7 +18,6 @@ after_success:
   - docker-compose build
   - docker-compose push
   - yarn coveralls
-
 branches:
   only:
     - master
